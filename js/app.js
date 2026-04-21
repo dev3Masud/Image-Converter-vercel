@@ -50,11 +50,6 @@ function handleFiles(fileList) {
       const img = new Image();
       img.onload = () => {
         originalDims[i] = { w: img.width, h: img.height };
-        if (img.width > 3840 || img.height > 2160) {
-          showError(`${f.name} exceeds 4K resolution (3840×2160)`);
-          files = files.filter((_, idx) => idx !== i);
-          if (!files.length) $('preview').classList.add('hidden');
-        }
       };
       img.src = url;
       return `<div class="file-item flex items-center gap-4 p-3 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700"><img src="${url}" class="w-14 h-14 object-cover rounded-lg shadow-sm"><div class="flex-1 min-w-0"><p class="font-medium text-gray-800 dark:text-white truncate">${f.name}</p><p class="text-sm text-gray-500 dark:text-gray-400">${(f.size / 1024).toFixed(1)} KB</p></div></div>`;
