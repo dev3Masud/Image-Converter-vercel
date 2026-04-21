@@ -6,9 +6,6 @@ import zipfile
 app = Flask(__name__)
 
 ALLOWED_FORMATS = {'PNG', 'JPEG', 'WEBP', 'GIF', 'BMP', 'ICO', 'TIFF'}
-MAX_SIZE = 10 * 1024 * 1024
-MAX_WIDTH = 3840
-MAX_HEIGHT = 2160
 
 def convert_image(file_data, output_format, quality, width, height):
     img = Image.open(io.BytesIO(file_data))
@@ -41,14 +38,6 @@ def handler():
         
         if len(files) == 1:
             file = files[0]
-            if len(file.read()) > MAX_SIZE:
-                return jsonify({'error': 'File exceeds 10MB'}), 400
-            file.seek(0)
-            
-            img = Image.open(io.BytesIO(file.read()))
-            if img.width > MAX_WIDTH or img.height > MAX_HEIGHT:
-                return jsonify({'error': f'Image resolution exceeds 4K limit ({MAX_WIDTH}x{MAX_HEIGHT})'}), 400
-            file.seek(0)
             
             converted = convert_image(file.read(), output_format, quality, width, height)
             ext = output_format.lower() if output_format != 'JPEG' else 'jpg'
@@ -59,13 +48,6 @@ def handler():
         zip_buffer = io.BytesIO()
         with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
             for file in files:
-                if len(file.read()) > MAX_SIZE:
-                    continue
-                file.seek(0)
-                img = Image.open(io.BytesIO(file.read()))
-                if img.width > MAX_WIDTH or img.height > MAX_HEIGHT:
-                    continue
-                file.seek(0)
                 converted = convert_image(file.read(), output_format, quality, width, height)
                 ext = output_format.lower() if output_format != 'JPEG' else 'jpg'
                 filename = f"{file.filename.rsplit('.', 1)[0]}_converted.{ext}"
