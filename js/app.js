@@ -40,10 +40,6 @@ function handleFiles(fileList) {
       showError(`${f.name} is not an image`);
       return false;
     }
-    if (f.size > 10 * 1024 * 1024) {
-      showError(`${f.name} exceeds 10MB`);
-      return false;
-    }
     return true;
   });
   if (files.length) {
