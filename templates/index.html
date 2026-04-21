@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Converter</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>body{transition:background-color .3s,color .3s}.dark{background-color:#1a202c;color:#e2e8f0}.dark .bg-white{background-color:#2d3748}.dark .border-gray-300{border-color:#4a5568}.dark .text-gray-700{color:#e2e8f0}.dark .text-gray-600{color:#cbd5e0}</style>
+</head>
+<body class="min-h-screen bg-gray-50 p-4">
+<div class="max-w-6xl mx-auto">
+<div class="flex justify-between items-center mb-8">
+<h1 class="text-3xl font-bold text-gray-800">Image Converter</h1>
+<button id="darkToggle" class="p-2 rounded-lg bg-gray-200 hover:bg-gray-300">
+<svg id="sunIcon" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
+<svg id="moonIcon" class="w-6 h-6 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+</button>
+</div>
+
+<div id="error" class="hidden mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg"></div>
+
+<div class="grid md:grid-cols-2 gap-6">
+<div class="bg-white rounded-lg shadow-lg p-6 border border-gray-300">
+<h2 class="text-xl font-semibold mb-4 text-gray-700">Upload Images</h2>
+<div id="dropZone" class="border-2 border-dashed border-gray-400 rounded-lg p-8 text-center cursor-pointer hover:border-blue-500 transition">
+<svg class="w-12 h-12 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+<p class="text-gray-600 mb-2">Drag & drop images here</p>
+<p class="text-sm text-gray-500 mb-4">or click to browse</p>
+<p class="text-xs text-gray-400">PNG, JPG, WEBP, GIF, BMP, ICO, TIFF (max 10MB each)</p>
+<input type="file" id="fileInput" multiple accept="image/*" class="hidden">
+</div>
+<div id="preview" class="mt-4 hidden">
+<h3 class="font-semibold mb-2 text-gray-700">Selected Files:</h3>
+<div id="fileList" class="space-y-2"></div>
+</div>
+</div>
+
+<div class="bg-white rounded-lg shadow-lg p-6 border border-gray-300">
+<h2 class="text-xl font-semibold mb-4 text-gray-700">Conversion Settings</h2>
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Output Format</label>
+<select id="format" class="w-full p-2 border border-gray-300 rounded-lg">
+<option value="PNG">PNG</option>
+<option value="JPEG">JPG</option>
+<option value="WEBP">WEBP</option>
+<option value="GIF">GIF</option>
+<option value="BMP">BMP</option>
+<option value="ICO">ICO</option>
+<option value="TIFF">TIFF</option>
+</select>
+</div>
+<div id="qualitySection">
+<label class="block text-sm font-medium text-gray-700 mb-2">Quality: <span id="qualityValue">85</span></label>
+<input type="range" id="quality" min="1" max="100" value="85" class="w-full">
+</div>
+<div>
+<label class="flex items-center space-x-2 cursor-pointer">
+<input type="checkbox" id="resizeToggle" class="w-4 h-4">
+<span class="text-sm font-medium text-gray-700">Enable Resize</span>
+</label>
+</div>
+<div id="resizeSection" class="hidden space-y-3">
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="block text-xs text-gray-600 mb-1">Width (px)</label>
+<input type="number" id="width" placeholder="Auto" class="w-full p-2 border border-gray-300 rounded-lg">
+</div>
+<div>
+<label class="block text-xs text-gray-600 mb-1">Height (px)</label>
+<input type="number" id="height" placeholder="Auto" class="w-full p-2 border border-gray-300 rounded-lg">
+</div>
+</div>
+<label class="flex items-center space-x-2 cursor-pointer">
+<input type="checkbox" id="aspectLock" checked class="w-4 h-4">
+<span class="text-xs text-gray-600">Lock aspect ratio</span>
+</label>
+</div>
+<button id="convertBtn" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed">Convert</button>
+<div id="progress" class="hidden">
+<div class="w-full bg-gray-200 rounded-full h-2">
+<div id="progressBar" class="bg-blue-600 h-2 rounded-full transition-all" style="width:0%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="result" class="hidden mt-6 bg-white rounded-lg shadow-lg p-6 border border-gray-300">
+<h2 class="text-xl font-semibold mb-4 text-gray-700">Converted Image</h2>
+<div id="resultContent"></div>
+<button id="downloadBtn" class="mt-4 w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition">Download</button>
+</div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+let files=[],originalDims={};
+
+(function(){const d=localStorage.getItem('darkMode')==='true';if(d){document.documentElement.classList.add('dark');$('sunIcon').classList.add('hidden');$('moonIcon').classList.remove('hidden');}})();
+
+$('darkToggle').onclick=()=>{const d=document.documentElement.classList.toggle('dark');localStorage.setItem('darkMode',d);$('sunIcon').classList.toggle('hidden');$('moonIcon').classList.toggle('hidden');};
+
+$('dropZone').onclick=()=>$('fileInput').click();
+$('dropZone').ondragover=e=>{e.preventDefault();e.currentTarget.classList.add('border-blue-500');};
+$('dropZone').ondragleave=e=>e.currentTarget.classList.remove('border-blue-500');
+$('dropZone').ondrop=e=>{e.preventDefault();e.currentTarget.classList.remove('border-blue-500');handleFiles(e.dataTransfer.files);};
+$('fileInput').onchange=e=>handleFiles(e.target.files);
+
+function handleFiles(fileList){
+files=Array.from(fileList).filter(f=>{
+if(!f.type.startsWith('image/')){showError(`${f.name} is not an image`);return false;}
+if(f.size>10*1024*1024){showError(`${f.name} exceeds 10MB`);return false;}
+return true;
+});
+if(files.length){
+$('preview').classList.remove('hidden');
+$('fileList').innerHTML=files.map((f,i)=>{
+const url=URL.createObjectURL(f);
+const img=new Image();
+img.onload=()=>originalDims[i]={w:img.width,h:img.height};
+img.src=url;
+return`<div class="flex items-center space-x-3 p-2 bg-gray-50 rounded"><img src="${url}" class="w-16 h-16 object-cover rounded"><div class="flex-1 text-sm"><p class="font-medium text-gray-700">${f.name}</p><p class="text-gray-500">${(f.size/1024).toFixed(1)}KB</p></div></div>`;
+}).join('');
+}
+}
+
+$('format').onchange=()=>{
+const fmt=$('format').value;
+$('qualitySection').classList.toggle('hidden',!['JPEG','WEBP'].includes(fmt));
+};
+
+$('quality').oninput=()=>$('qualityValue').textContent=$('quality').value;
+
+$('resizeToggle').onchange=()=>$('resizeSection').classList.toggle('hidden',!$('resizeToggle').checked);
+
+$('width').oninput=()=>{if($('aspectLock').checked&&originalDims[0]){const r=originalDims[0].h/originalDims[0].w;$('height').value=Math.round($('width').value*r);}};
+$('height').oninput=()=>{if($('aspectLock').checked&&originalDims[0]){const r=originalDims[0].w/originalDims[0].h;$('width').value=Math.round($('height').value*r);}};
+
+$('convertBtn').onclick=async()=>{
+if(!files.length){showError('Please select files');return;}
+$('error').classList.add('hidden');
+$('convertBtn').disabled=true;
+$('progress').classList.remove('hidden');
+$('progressBar').style.width='50%';
+
+const fd=new FormData();
+files.forEach(f=>fd.append('files',f));
+fd.append('format',$('format').value);
+fd.append('quality',$('quality').value);
+if($('resizeToggle').checked){
+fd.append('width',$('width').value||0);
+fd.append('height',$('height').value||0);
+}
+
+try{
+const res=await fetch('/api/convert',{method:'POST',body:fd});
+$('progressBar').style.width='100%';
+if(!res.ok){const err=await res.json();throw new Error(err.error);}
+const blob=await res.blob();
+const url=URL.createObjectURL(blob);
+const isSingle=files.length===1;
+if(isSingle&&blob.type.startsWith('image/')){
+$('resultContent').innerHTML=`<img src="${url}" class="max-w-full rounded-lg shadow">`;
+}else{
+$('resultContent').innerHTML=`<p class="text-gray-600">✓ ${files.length} images converted to ZIP</p>`;
+}
+$('result').classList.remove('hidden');
+$('downloadBtn').onclick=()=>{
+const a=document.createElement('a');
+a.href=url;
+a.download=isSingle?`${files[0].name.split('.')[0]}_converted.${$('format').value.toLowerCase()}`:'converted_images.zip';
+a.click();
+};
+}catch(err){
+showError(err.message);
+}finally{
+$('convertBtn').disabled=false;
+$('progress').classList.add('hidden');
+$('progressBar').style.width='0%';
+}
+};
+
+function showError(msg){
+$('error').textContent=msg;
+$('error').classList.remove('hidden');
+setTimeout(()=>$('error').classList.add('hidden'),5000);
+}
+</script>
+</body>
+</html>

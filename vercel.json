@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/convert.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/convert",
+      "dest": "api/convert.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "templates/index.html"
+    }
+  ]
+}
