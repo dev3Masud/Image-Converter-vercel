@@ -6,30 +6,7 @@
 <title>Image Converter - Transform Your Images</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-*{font-family:'Inter',sans-serif}
-body{transition:background .3s,color .3s}
-.dark .card{background:linear-gradient(145deg,#1e293b 0%,#0f172a 100%);border-color:#334155}
-.dark .input-field{background:#1e293b;border-color:#334155;color:#e2e8f0}
-.dark .drop-zone{border-color:#475569;background:#1e293b}
-.dark .drop-zone:hover{border-color:#3b82f6;background:#1e293b}
-.dark .tab-inactive{background:#1e293b;border-color:#334155;color:#e2e8f0}
-.card{background:#fff;border:1px solid #e5e7eb;backdrop-filter:blur(10px)}
-.input-field{background:#f9fafb;border:1px solid #e5e7eb;transition:all .2s}
-.input-field:focus{border-color:#3b82f6;outline:none;box-shadow:0 0 0 3px rgba(59,130,246,.1)}
-.drop-zone{transition:all .3s;border:2px dashed #cbd5e0;background:#f9fafb}
-.drop-zone:hover{border-color:#3b82f6;background:#eff6ff;transform:translateY(-2px)}
-.btn-primary{background:linear-gradient(135deg,#3b82f6 0%,#2563eb 100%);transition:all .3s;box-shadow:0 4px 14px rgba(59,130,246,.4)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(59,130,246,.5)}
-.btn-primary:active{transform:translateY(0)}
-.gradient-text{background:linear-gradient(135deg,#3b82f6 0%,#8b5cf6 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-@keyframes slideIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.animate-in{animation:slideIn .4s ease-out}
-.file-item{transition:all .2s}
-.file-item:hover{transform:translateX(4px);background:#f3f4f6}
-.dark .file-item:hover{background:#1e293b}
-</style>
+<link rel="stylesheet" href="/css/style.css">
 </head>
 <body class="min-h-screen p-4 md:p-8 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
 <div class="max-w-7xl mx-auto">
@@ -158,107 +135,6 @@ Download
 </div>
 </div>
 
-<script>
-const $=id=>document.getElementById(id);
-let files=[],originalDims={};
-
-(function(){const d=localStorage.getItem('darkMode')==='true';if(d){document.documentElement.classList.add('dark');$('sunIcon').classList.add('hidden');$('moonIcon').classList.remove('hidden');}else{document.documentElement.classList.remove('dark');}})();
-
-$('darkToggle').onclick=()=>{const isDark=document.documentElement.classList.toggle('dark');localStorage.setItem('darkMode',isDark);$('sunIcon').classList.toggle('hidden');$('moonIcon').classList.toggle('hidden');};
-
-$('dropZone').onclick=()=>$('fileInput').click();
-$('dropZone').ondragover=e=>{e.preventDefault();e.currentTarget.classList.add('border-blue-500','scale-105');};
-$('dropZone').ondragleave=e=>{e.currentTarget.classList.remove('border-blue-500','scale-105');};
-$('dropZone').ondrop=e=>{e.preventDefault();e.currentTarget.classList.remove('border-blue-500','scale-105');handleFiles(e.dataTransfer.files);};
-$('fileInput').onchange=e=>handleFiles(e.target.files);
-
-function handleFiles(fileList){
-files=Array.from(fileList).filter(f=>{
-if(!f.type.startsWith('image/')){showError(`${f.name} is not an image`);return false;}
-if(f.size>10*1024*1024){showError(`${f.name} exceeds 10MB`);return false;}
-return true;
-});
-if(files.length){
-$('preview').classList.remove('hidden');
-$('fileCount').textContent=`${files.length} file${files.length>1?'s':''}`;
-$('fileList').innerHTML=files.map((f,i)=>{
-const url=URL.createObjectURL(f);
-const img=new Image();
-img.onload=()=>{
-originalDims[i]={w:img.width,h:img.height};
-if(img.width>3840||img.height>2160){
-showError(`${f.name} exceeds 4K resolution (3840×2160)`);
-files=files.filter((_,idx)=>idx!==i);
-if(!files.length)$('preview').classList.add('hidden');
-}
-};
-img.src=url;
-return`<div class="file-item flex items-center gap-4 p-3 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700"><img src="${url}" class="w-14 h-14 object-cover rounded-lg shadow-sm"><div class="flex-1 min-w-0"><p class="font-medium text-gray-800 dark:text-white truncate">${f.name}</p><p class="text-sm text-gray-500 dark:text-gray-400">${(f.size/1024).toFixed(1)} KB</p></div></div>`;
-}).join('');
-}
-}
-
-$('format').onchange=()=>{
-const fmt=$('format').value;
-$('qualitySection').classList.toggle('hidden',!['JPEG','WEBP'].includes(fmt));
-};
-
-$('quality').oninput=()=>$('qualityValue').textContent=$('quality').value+'%';
-
-$('resizeToggle').onchange=()=>$('resizeSection').classList.toggle('hidden',!$('resizeToggle').checked);
-
-$('width').oninput=()=>{if($('aspectLock').checked&&originalDims[0]){const r=originalDims[0].h/originalDims[0].w;$('height').value=Math.round($('width').value*r);}};
-$('height').oninput=()=>{if($('aspectLock').checked&&originalDims[0]){const r=originalDims[0].w/originalDims[0].h;$('width').value=Math.round($('height').value*r);}};
-
-$('convertBtn').onclick=async()=>{
-if(!files.length){showError('Please select files');return;}
-$('error').classList.add('hidden');
-$('convertBtn').disabled=true;
-$('progress').classList.remove('hidden');
-$('progressBar').style.width='50%';
-
-const fd=new FormData();
-files.forEach(f=>fd.append('files',f));
-fd.append('format',$('format').value);
-fd.append('quality',$('quality').value);
-if($('resizeToggle').checked){
-fd.append('width',$('width').value||0);
-fd.append('height',$('height').value||0);
-}
-
-try{
-const res=await fetch('/api/convert',{method:'POST',body:fd});
-$('progressBar').style.width='100%';
-if(!res.ok){const err=await res.json();throw new Error(err.error);}
-const blob=await res.blob();
-const url=URL.createObjectURL(blob);
-const isSingle=files.length===1;
-if(isSingle&&blob.type.startsWith('image/')){
-$('resultContent').innerHTML=`<div class="rounded-xl overflow-hidden shadow-lg"><img src="${url}" class="w-full"></div>`;
-}else{
-$('resultContent').innerHTML=`<div class="flex items-center gap-3 p-4 bg-green-50 dark:bg-green-900/20 rounded-xl"><svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><p class="text-green-700 dark:text-green-400 font-medium">${files.length} images converted successfully</p></div>`;
-}
-$('result').classList.remove('hidden');
-$('downloadBtn').onclick=()=>{
-const a=document.createElement('a');
-a.href=url;
-a.download=isSingle?`${files[0].name.split('.')[0]}_converted.${$('format').value.toLowerCase()}`:'converted_images.zip';
-a.click();
-};
-}catch(err){
-showError(err.message);
-}finally{
-$('convertBtn').disabled=false;
-$('progress').classList.add('hidden');
-$('progressBar').style.width='0%';
-}
-};
-
-function showError(msg){
-$('error').textContent=msg;
-$('error').classList.remove('hidden');
-setTimeout(()=>$('error').classList.add('hidden'),5000);
-}
-</script>
+<script src="/js/app.js"></script>
 </body>
 </html>
