@@ -1,5 +1,6 @@
 from flask import Flask, request, send_file, jsonify
 from PIL import Image
+from rembg import remove
 import io
 import zipfile
 
@@ -62,6 +63,41 @@ def handler():
         
         zip_buffer.seek(0)
         return send_file(zip_buffer, mimetype='application/zip', as_attachment=True, download_name='converted_images.zip')
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/remove-bg', methods=['POST'])
+def remove_bg():
+    try:
+        files = request.files.getlist('files')
+        if not files or not files[0].filename:
+            return jsonify({'error': 'No files uploaded'}), 400
+        
+        if len(files) == 1:
+            file = files[0]
+            if len(file.read()) > MAX_SIZE:
+                return jsonify({'error': 'File exceeds 10MB'}), 400
+            file.seek(0)
+            
+            output = remove(file.read())
+            output_io = io.BytesIO(output)
+            filename = f"{file.filename.rsplit('.', 1)[0]}_nobg.png"
+            
+            return send_file(output_io, mimetype='image/png', as_attachment=True, download_name=filename)
+        
+        zip_buffer = io.BytesIO()
+        with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+            for file in files:
+                if len(file.read()) > MAX_SIZE:
+                    continue
+                file.seek(0)
+                output = remove(file.read())
+                filename = f"{file.filename.rsplit('.', 1)[0]}_nobg.png"
+                zip_file.writestr(filename, output)
+        
+        zip_buffer.seek(0)
+        return send_file(zip_buffer, mimetype='application/zip', as_attachment=True, download_name='nobg_images.zip')
     
     except Exception as e:
         return jsonify({'error': str(e)}), 500
