@@ -162,9 +162,9 @@ Download
 const $=id=>document.getElementById(id);
 let files=[],originalDims={};
 
-(function(){const d=localStorage.getItem('darkMode')==='true';if(d){document.documentElement.classList.add('dark');$('sunIcon').classList.add('hidden');$('moonIcon').classList.remove('hidden');}})();
+(function(){const d=localStorage.getItem('darkMode')==='true';if(d){document.documentElement.classList.add('dark');$('sunIcon').classList.add('hidden');$('moonIcon').classList.remove('hidden');}else{document.documentElement.classList.remove('dark');}})();
 
-$('darkToggle').onclick=()=>{const d=document.documentElement.classList.toggle('dark');localStorage.setItem('darkMode',d);$('sunIcon').classList.toggle('hidden');$('moonIcon').classList.toggle('hidden');};
+$('darkToggle').onclick=()=>{const isDark=document.documentElement.classList.toggle('dark');localStorage.setItem('darkMode',isDark);$('sunIcon').classList.toggle('hidden');$('moonIcon').classList.toggle('hidden');};
 
 $('dropZone').onclick=()=>$('fileInput').click();
 $('dropZone').ondragover=e=>{e.preventDefault();e.currentTarget.classList.add('border-blue-500','scale-105');};
