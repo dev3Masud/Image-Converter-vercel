@@ -61,7 +61,7 @@ body{transition:background .3s,color .3s}
 <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">or click to browse files</p>
 <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
 <svg class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
-<span class="text-xs text-blue-600 dark:text-blue-400 font-medium">PNG, JPG, WEBP, GIF, BMP, ICO, TIFF • Max 10MB</span>
+<span class="text-xs text-blue-600 dark:text-blue-400 font-medium">PNG, JPG, WEBP, GIF, BMP, ICO, TIFF • Max 10MB • Max 4K (3840×2160)</span>
 </div>
 <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
 </div>
@@ -185,7 +185,14 @@ $('fileCount').textContent=`${files.length} file${files.length>1?'s':''}`;
 $('fileList').innerHTML=files.map((f,i)=>{
 const url=URL.createObjectURL(f);
 const img=new Image();
-img.onload=()=>originalDims[i]={w:img.width,h:img.height};
+img.onload=()=>{
+originalDims[i]={w:img.width,h:img.height};
+if(img.width>3840||img.height>2160){
+showError(`${f.name} exceeds 4K resolution (3840×2160)`);
+files=files.filter((_,idx)=>idx!==i);
+if(!files.length)$('preview').classList.add('hidden');
+}
+};
 img.src=url;
 return`<div class="file-item flex items-center gap-4 p-3 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700"><img src="${url}" class="w-14 h-14 object-cover rounded-lg shadow-sm"><div class="flex-1 min-w-0"><p class="font-medium text-gray-800 dark:text-white truncate">${f.name}</p><p class="text-sm text-gray-500 dark:text-gray-400">${(f.size/1024).toFixed(1)} KB</p></div></div>`;
 }).join('');
