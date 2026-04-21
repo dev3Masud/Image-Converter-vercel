@@ -15,6 +15,7 @@ body{transition:background .3s,color .3s}
 .dark .input-field{background:#1e293b;border-color:#334155;color:#e2e8f0}
 .dark .drop-zone{border-color:#475569;background:#1e293b}
 .dark .drop-zone:hover{border-color:#3b82f6;background:#1e293b}
+.dark .tab-inactive{background:#1e293b;border-color:#334155;color:#e2e8f0}
 .card{background:#fff;border:1px solid #e5e7eb;backdrop-filter:blur(10px)}
 .input-field{background:#f9fafb;border:1px solid #e5e7eb;transition:all .2s}
 .input-field:focus{border-color:#3b82f6;outline:none;box-shadow:0 0 0 3px rgba(59,130,246,.1)}
@@ -258,7 +259,7 @@ $('removeBgSection').classList.add('hidden');
 $('result').classList.add('hidden');
 $('resultBg').classList.add('hidden');
 $('tabConvert').className='flex-1 py-3 px-6 rounded-xl font-semibold transition-all bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg';
-$('tabRemoveBg').className='flex-1 py-3 px-6 rounded-xl font-semibold transition-all bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-2 border-gray-200 dark:border-gray-700';
+$('tabRemoveBg').className='flex-1 py-3 px-6 rounded-xl font-semibold transition-all tab-inactive bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-2 border-gray-200 dark:border-gray-700';
 };
 
 $('tabRemoveBg').onclick=()=>{
@@ -268,7 +269,7 @@ $('removeBgSection').classList.remove('hidden');
 $('result').classList.add('hidden');
 $('resultBg').classList.add('hidden');
 $('tabRemoveBg').className='flex-1 py-3 px-6 rounded-xl font-semibold transition-all bg-gradient-to-r from-pink-500 to-rose-600 text-white shadow-lg';
-$('tabConvert').className='flex-1 py-3 px-6 rounded-xl font-semibold transition-all bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-2 border-gray-200 dark:border-gray-700';
+$('tabConvert').className='flex-1 py-3 px-6 rounded-xl font-semibold transition-all tab-inactive bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-2 border-gray-200 dark:border-gray-700';
 };
 
 $('dropZone').onclick=()=>$('fileInput').click();
