@@ -4,6 +4,10 @@
     {
       "src": "api/convert.py",
       "use": "@vercel/python"
+    },
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -13,7 +17,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "templates/index.html"
+      "dest": "/index.html"
     }
   ]
 }

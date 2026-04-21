@@ -1,11 +1,11 @@
-from flask import Flask, render_template
+from flask import Flask, send_file
 from api.convert import handler
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return send_file('index.html')
 
 @app.route('/api/convert', methods=['POST'])
 def convert():

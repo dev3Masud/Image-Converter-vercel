@@ -26,8 +26,7 @@ A modern, fast, browser-based image format converter with resize, quality contro
 image-converter/
 ├── api/
 │   └── convert.py          # Vercel serverless function
-├── templates/
-│   └── index.html          # Single page app UI
+├── index.html              # Single page app UI
 ├── app.py                  # Local Flask dev server
 ├── requirements.txt        # Python dependencies
 ├── vercel.json             # Vercel config
