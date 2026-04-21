@@ -109,7 +109,7 @@ $('convertBtn').onclick = async () => {
     const url = URL.createObjectURL(blob);
     const isSingle = files.length === 1;
     if (isSingle && blob.type.startsWith('image/')) {
-      $('resultContent').innerHTML = `<div class="rounded-xl overflow-hidden shadow-lg"><img src="${url}" class="w-full"></div>`;
+      $('resultContent').innerHTML = `<div class="flex justify-center"><div class="rounded-xl overflow-hidden shadow-lg" style="max-width:600px;width:100%"><img src="${url}" class="w-full"></div></div>`;
     } else {
       $('resultContent').innerHTML = `<div class="flex items-center gap-3 p-4 bg-green-50 dark:bg-green-900/20 rounded-xl"><svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><p class="text-green-700 dark:text-green-400 font-medium">${files.length} images converted successfully</p></div>`;
     }
