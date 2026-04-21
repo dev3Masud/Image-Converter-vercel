@@ -72,24 +72,57 @@ http://localhost:8080
 
 ## Deploy to Vercel
 
-### Prerequisites
+### Method 1: Deploy from GitHub (Recommended)
 
-- Vercel account (free tier works)
-- Vercel CLI installed: `npm i -g vercel`
+1. Push your code to GitHub:
+```bash
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
+git push -u origin main
+```
 
-### Deployment Steps
+2. Go to [vercel.com](https://vercel.com) and sign in
 
-1. Navigate to project directory:
+3. Click **"Add New Project"**
+
+4. Import your GitHub repository:
+   - Select your repository from the list
+   - Click **"Import"**
+
+5. Configure project:
+   - Framework Preset: **Other**
+   - Root Directory: `./` (leave as default)
+   - Build Command: (leave empty)
+   - Output Directory: (leave empty)
+   - Click **"Deploy"**
+
+6. Wait for deployment to complete (1-2 minutes)
+
+7. Your app is live at: `https://your-project.vercel.app`
+
+**Auto-deploy**: Any push to `main` branch will automatically redeploy.
+
+### Method 2: Deploy with Vercel CLI
+
+1. Install Vercel CLI:
+```bash
+npm i -g vercel
+```
+
+2. Navigate to project directory:
 ```bash
 cd image-converter
 ```
 
-2. Login to Vercel:
+3. Login to Vercel:
 ```bash
 vercel login
 ```
 
-3. Deploy:
+4. Deploy:
 ```bash
 vercel
 ```
@@ -102,7 +135,7 @@ Follow the prompts:
 - Directory? **./** (current directory)
 - Override settings? **N**
 
-4. Production deployment:
+5. Production deployment:
 ```bash
 vercel --prod
 ```
