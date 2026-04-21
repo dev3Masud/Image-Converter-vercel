@@ -1,5 +1,6 @@
 const $ = id => document.getElementById(id);
 let files = [], originalDims = {};
+let uploadUrls = [], resultUrl = null;
 
 (function() {
   const d = localStorage.getItem('darkMode') === 'true';
@@ -47,6 +48,7 @@ function handleFiles(fileList) {
     $('fileCount').textContent = `${files.length} file${files.length > 1 ? 's' : ''}`;
     $('fileList').innerHTML = files.map((f, i) => {
       const url = URL.createObjectURL(f);
+      uploadUrls.push(url);
       const img = new Image();
       img.onload = () => {
         originalDims[i] = { w: img.width, h: img.height };
@@ -54,6 +56,12 @@ function handleFiles(fileList) {
       img.src = url;
       return `<div class="file-item flex items-center gap-4 p-3 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700"><img src="${url}" class="w-14 h-14 object-cover rounded-lg shadow-sm"><div class="flex-1 min-w-0"><p class="font-medium text-gray-800 dark:text-white truncate">${f.name}</p><p class="text-sm text-gray-500 dark:text-gray-400">${(f.size / 1024).toFixed(1)} KB</p></div></div>`;
     }).join('');
+    setTimeout(() => {
+      uploadUrls.forEach(url => URL.revokeObjectURL(url));
+      uploadUrls = [];
+      $('preview').classList.add('hidden');
+      files = [];
+    }, 30 * 60 * 1000);
   }
 }
 
@@ -107,6 +115,8 @@ $('convertBtn').onclick = async () => {
     }
     const blob = await res.blob();
     const url = URL.createObjectURL(blob);
+    if (resultUrl) URL.revokeObjectURL(resultUrl);
+    resultUrl = url;
     const isSingle = files.length === 1;
     if (isSingle && blob.type.startsWith('image/')) {
       $('resultContent').innerHTML = `<div class="flex justify-center"><div class="rounded-xl overflow-hidden shadow-lg" style="max-width:600px;width:100%"><img src="${url}" class="w-full"></div></div>`;
@@ -120,6 +130,11 @@ $('convertBtn').onclick = async () => {
       a.download = isSingle ? `${files[0].name.split('.')[0]}_converted.${$('format').value.toLowerCase()}` : 'converted_images.zip';
       a.click();
     };
+    setTimeout(() => {
+      URL.revokeObjectURL(url);
+      resultUrl = null;
+      $('result').classList.add('hidden');
+    }, 30 * 60 * 1000);
   } catch (err) {
     showError(err.message);
   } finally {
