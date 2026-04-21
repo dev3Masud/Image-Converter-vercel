@@ -16,10 +16,6 @@
       "dest": "api/convert.py"
     },
     {
-      "src": "/api/remove-bg",
-      "dest": "api/convert.py"
-    },
-    {
       "src": "/(.*)",
       "dest": "/index.html"
     }

@@ -36,8 +36,8 @@ body{transition:background .3s,color .3s}
 <div class="max-w-7xl mx-auto">
 <div class="flex justify-between items-center mb-12 animate-in">
 <div>
-<h1 class="text-4xl md:text-5xl font-bold gradient-text mb-2">Image Tools</h1>
-<p class="text-gray-600 dark:text-gray-400">Convert & remove backgrounds instantly</p>
+<h1 class="text-4xl md:text-5xl font-bold gradient-text mb-2">Image Converter</h1>
+<p class="text-gray-600 dark:text-gray-400">Transform your images instantly</p>
 </div>
 <button id="darkToggle" class="p-3 rounded-xl bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all">
 <svg id="sunIcon" class="w-6 h-6 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
@@ -45,24 +45,8 @@ body{transition:background .3s,color .3s}
 </button>
 </div>
 
-<div class="flex gap-4 mb-8 animate-in">
-<button id="tabConvert" class="flex-1 py-3 px-6 rounded-xl font-semibold transition-all bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg">
-<span class="flex items-center justify-center gap-2">
-<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-Convert Format
-</span>
-</button>
-<button id="tabRemoveBg" class="flex-1 py-3 px-6 rounded-xl font-semibold transition-all bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-2 border-gray-200 dark:border-gray-700">
-<span class="flex items-center justify-center gap-2">
-<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
-Remove Background
-</span>
-</button>
-</div>
-
 <div id="error" class="hidden mb-6 p-4 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 text-red-700 dark:text-red-400 rounded-lg animate-in"></div>
 
-<div id="convertSection">
 <div class="grid lg:grid-cols-2 gap-8">
 <div class="card rounded-2xl shadow-xl p-8 animate-in">
 <div class="flex items-center gap-3 mb-6">
@@ -157,75 +141,6 @@ Convert Images
 </div>
 </div>
 </div>
-</div>
-
-<div id="removeBgSection" class="hidden">
-<div class="grid lg:grid-cols-2 gap-8">
-<div class="card rounded-2xl shadow-xl p-8 animate-in">
-<div class="flex items-center gap-3 mb-6">
-<div class="w-10 h-10 rounded-lg bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center">
-<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-</div>
-<h2 class="text-2xl font-bold text-gray-800 dark:text-white">Upload Images</h2>
-</div>
-<div id="dropZoneBg" class="drop-zone rounded-xl p-12 text-center cursor-pointer">
-<svg class="w-16 h-16 mx-auto mb-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
-<p class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">Drop images to remove background</p>
-<p class="text-sm text-gray-500 dark:text-gray-400 mb-4">AI-powered background removal</p>
-<div class="inline-flex items-center gap-2 px-4 py-2 bg-pink-50 dark:bg-pink-900/20 rounded-lg">
-<svg class="w-4 h-4 text-pink-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
-<span class="text-xs text-pink-600 dark:text-pink-400 font-medium">PNG, JPG, WEBP • Max 10MB</span>
-</div>
-<input type="file" id="fileInputBg" multiple accept="image/*" class="hidden">
-</div>
-<div id="previewBg" class="mt-6 hidden">
-<div class="flex items-center justify-between mb-3">
-<h3 class="font-semibold text-gray-700 dark:text-gray-300">Selected Files</h3>
-<span id="fileCountBg" class="text-sm px-3 py-1 bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-400 rounded-full font-medium"></span>
-</div>
-<div id="fileListBg" class="space-y-2 max-h-64 overflow-y-auto"></div>
-</div>
-</div>
-
-<div class="card rounded-2xl shadow-xl p-8 animate-in flex flex-col justify-center">
-<div class="text-center mb-6">
-<div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center">
-<svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-</div>
-<h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">AI Background Removal</h3>
-<p class="text-gray-600 dark:text-gray-400 text-sm">Automatically remove backgrounds with AI precision. Output format: PNG with transparency.</p>
-</div>
-<button id="removeBgBtn" class="w-full py-4 rounded-xl font-bold text-white text-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 shadow-lg hover:shadow-xl transition-all">
-<span class="flex items-center justify-center gap-2">
-<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
-Remove Background
-</span>
-</button>
-<div id="progressBg" class="hidden mt-4">
-<div class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-<div id="progressBarBg" class="h-full bg-gradient-to-r from-pink-500 to-rose-600 transition-all duration-500" style="width:0%"></div>
-</div>
-<p class="text-center text-sm text-gray-600 dark:text-gray-400 mt-2">Processing with AI...</p>
-</div>
-</div>
-</div>
-</div>
-
-<div id="resultBg" class="hidden mt-8 card rounded-2xl shadow-xl p-8 animate-in">
-<div class="flex items-center gap-3 mb-6">
-<div class="w-10 h-10 rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center">
-<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-</div>
-<h2 class="text-2xl font-bold text-gray-800 dark:text-white">Background Removed</h2>
-</div>
-<div id="resultContentBg" class="mb-6"></div>
-<button id="downloadBtnBg" class="w-full py-4 rounded-xl font-bold text-white text-lg bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 shadow-lg hover:shadow-xl transition-all">
-<span class="flex items-center justify-center gap-2">
-<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-Download
-</span>
-</button>
-</div>
 
 <div id="result" class="hidden mt-8 card rounded-2xl shadow-xl p-8 animate-in">
 <div class="flex items-center gap-3 mb-6">
@@ -246,43 +161,17 @@ Download
 
 <script>
 const $=id=>document.getElementById(id);
-let files=[],filesBg=[],originalDims={},currentTab='convert';
+let files=[],originalDims={};
 
 (function(){const d=localStorage.getItem('darkMode')==='true';if(d){document.documentElement.classList.add('dark');$('sunIcon').classList.add('hidden');$('moonIcon').classList.remove('hidden');}})();
 
 $('darkToggle').onclick=()=>{const d=document.documentElement.classList.toggle('dark');localStorage.setItem('darkMode',d);$('sunIcon').classList.toggle('hidden');$('moonIcon').classList.toggle('hidden');};
-
-$('tabConvert').onclick=()=>{
-currentTab='convert';
-$('convertSection').classList.remove('hidden');
-$('removeBgSection').classList.add('hidden');
-$('result').classList.add('hidden');
-$('resultBg').classList.add('hidden');
-$('tabConvert').className='flex-1 py-3 px-6 rounded-xl font-semibold transition-all bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg';
-$('tabRemoveBg').className='flex-1 py-3 px-6 rounded-xl font-semibold transition-all tab-inactive bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-2 border-gray-200 dark:border-gray-700';
-};
-
-$('tabRemoveBg').onclick=()=>{
-currentTab='removebg';
-$('convertSection').classList.add('hidden');
-$('removeBgSection').classList.remove('hidden');
-$('result').classList.add('hidden');
-$('resultBg').classList.add('hidden');
-$('tabRemoveBg').className='flex-1 py-3 px-6 rounded-xl font-semibold transition-all bg-gradient-to-r from-pink-500 to-rose-600 text-white shadow-lg';
-$('tabConvert').className='flex-1 py-3 px-6 rounded-xl font-semibold transition-all tab-inactive bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-2 border-gray-200 dark:border-gray-700';
-};
 
 $('dropZone').onclick=()=>$('fileInput').click();
 $('dropZone').ondragover=e=>{e.preventDefault();e.currentTarget.classList.add('border-blue-500','scale-105');};
 $('dropZone').ondragleave=e=>{e.currentTarget.classList.remove('border-blue-500','scale-105');};
 $('dropZone').ondrop=e=>{e.preventDefault();e.currentTarget.classList.remove('border-blue-500','scale-105');handleFiles(e.dataTransfer.files);};
 $('fileInput').onchange=e=>handleFiles(e.target.files);
-
-$('dropZoneBg').onclick=()=>$('fileInputBg').click();
-$('dropZoneBg').ondragover=e=>{e.preventDefault();e.currentTarget.classList.add('border-pink-500','scale-105');};
-$('dropZoneBg').ondragleave=e=>{e.currentTarget.classList.remove('border-pink-500','scale-105');};
-$('dropZoneBg').ondrop=e=>{e.preventDefault();e.currentTarget.classList.remove('border-pink-500','scale-105');handleFilesBg(e.dataTransfer.files);};
-$('fileInputBg').onchange=e=>handleFilesBg(e.target.files);
 
 function handleFiles(fileList){
 files=Array.from(fileList).filter(f=>{
@@ -298,22 +187,6 @@ const url=URL.createObjectURL(f);
 const img=new Image();
 img.onload=()=>originalDims[i]={w:img.width,h:img.height};
 img.src=url;
-return`<div class="file-item flex items-center gap-4 p-3 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700"><img src="${url}" class="w-14 h-14 object-cover rounded-lg shadow-sm"><div class="flex-1 min-w-0"><p class="font-medium text-gray-800 dark:text-white truncate">${f.name}</p><p class="text-sm text-gray-500 dark:text-gray-400">${(f.size/1024).toFixed(1)} KB</p></div></div>`;
-}).join('');
-}
-}
-
-function handleFilesBg(fileList){
-filesBg=Array.from(fileList).filter(f=>{
-if(!f.type.startsWith('image/')){showError(`${f.name} is not an image`);return false;}
-if(f.size>10*1024*1024){showError(`${f.name} exceeds 10MB`);return false;}
-return true;
-});
-if(filesBg.length){
-$('previewBg').classList.remove('hidden');
-$('fileCountBg').textContent=`${filesBg.length} file${filesBg.length>1?'s':''}`;
-$('fileListBg').innerHTML=filesBg.map(f=>{
-const url=URL.createObjectURL(f);
 return`<div class="file-item flex items-center gap-4 p-3 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700"><img src="${url}" class="w-14 h-14 object-cover rounded-lg shadow-sm"><div class="flex-1 min-w-0"><p class="font-medium text-gray-800 dark:text-white truncate">${f.name}</p><p class="text-sm text-gray-500 dark:text-gray-400">${(f.size/1024).toFixed(1)} KB</p></div></div>`;
 }).join('');
 }
@@ -372,44 +245,6 @@ showError(err.message);
 $('convertBtn').disabled=false;
 $('progress').classList.add('hidden');
 $('progressBar').style.width='0%';
-}
-};
-
-$('removeBgBtn').onclick=async()=>{
-if(!filesBg.length){showError('Please select files');return;}
-$('error').classList.add('hidden');
-$('removeBgBtn').disabled=true;
-$('progressBg').classList.remove('hidden');
-$('progressBarBg').style.width='50%';
-
-const fd=new FormData();
-filesBg.forEach(f=>fd.append('files',f));
-
-try{
-const res=await fetch('/api/remove-bg',{method:'POST',body:fd});
-$('progressBarBg').style.width='100%';
-if(!res.ok){const err=await res.json();throw new Error(err.error);}
-const blob=await res.blob();
-const url=URL.createObjectURL(blob);
-const isSingle=filesBg.length===1;
-if(isSingle&&blob.type.startsWith('image/')){
-$('resultContentBg').innerHTML=`<div class="rounded-xl overflow-hidden shadow-lg" style="background:repeating-conic-gradient(#e5e7eb 0% 25%,#fff 0% 50%) 50%/20px 20px"><img src="${url}" class="w-full"></div>`;
-}else{
-$('resultContentBg').innerHTML=`<div class="flex items-center gap-3 p-4 bg-green-50 dark:bg-green-900/20 rounded-xl"><svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><p class="text-green-700 dark:text-green-400 font-medium">${filesBg.length} backgrounds removed successfully</p></div>`;
-}
-$('resultBg').classList.remove('hidden');
-$('downloadBtnBg').onclick=()=>{
-const a=document.createElement('a');
-a.href=url;
-a.download=isSingle?`${filesBg[0].name.split('.')[0]}_nobg.png`:'nobg_images.zip';
-a.click();
-};
-}catch(err){
-showError(err.message);
-}finally{
-$('removeBgBtn').disabled=false;
-$('progressBg').classList.add('hidden');
-$('progressBarBg').style.width='0%';
 }
 };
 
