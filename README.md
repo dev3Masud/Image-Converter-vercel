@@ -73,34 +73,36 @@ http://localhost:8080
 
 ### Method 1: Deploy from GitHub (Recommended)
 
-1. Push your code to GitHub:
+1. Clone this repository:
 ```bash
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin https://github.com/dev3Masud/Image-Converter-vercel.git
+git clone https://github.com/dev3Masud/Image-Converter-vercel.git
+cd Image-Converter-vercel
+```
+
+2. Push to your own GitHub repository:
+```bash
+git remote set-url origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
 git push -u origin main
 ```
 
-2. Go to [vercel.com](https://vercel.com) and sign in
+3. Go to [vercel.com](https://vercel.com) and sign in
 
-3. Click **"Add New Project"**
+4. Click **"Add New Project"**
 
-4. Import your GitHub repository:
+5. Import your GitHub repository:
    - Select your repository from the list
    - Click **"Import"**
 
-5. Configure project:
+6. Configure project:
    - Framework Preset: **Other**
    - Root Directory: `./` (leave as default)
    - Build Command: (leave empty)
    - Output Directory: (leave empty)
    - Click **"Deploy"**
 
-6. Wait for deployment to complete (1-2 minutes)
+7. Wait for deployment to complete (1-2 minutes)
 
-7. Your app is live at: `https://your-project.vercel.app`
+8. Your app is live at: `https://your-project.vercel.app`
 
 **Auto-deploy**: Any push to `main` branch will automatically redeploy.
 
