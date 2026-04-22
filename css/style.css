@@ -6,6 +6,22 @@
 
 body {
   transition: background 0.5s ease, color 0.3s;
+  min-height: 100vh;
+}
+
+header {
+  animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .dark .card {
