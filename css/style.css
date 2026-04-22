@@ -219,3 +219,28 @@ header {
   50% { transform: translateY(-5px); }
 }
 
+/* Responsive Utilities */
+@media (max-width: 640px) {
+  .card {
+    padding: 1.25rem !important;
+  }
+  
+  h1 {
+    font-size: 1.5rem !important;
+  }
+  
+  h2 {
+    font-size: 1.125rem !important;
+  }
+  
+  .drop-zone {
+    padding: 2rem !important;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .card {
+    padding: 1.75rem !important;
+  }
+}
+
