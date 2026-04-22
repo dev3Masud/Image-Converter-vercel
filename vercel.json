@@ -24,6 +24,10 @@
       "dest": "api/convert.py"
     },
     {
+      "src": "/favicon.svg",
+      "dest": "/favicon.svg"
+    },
+    {
       "src": "/css/(.*)",
       "dest": "/css/$1"
     },
