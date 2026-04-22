@@ -13,39 +13,9 @@ tailwind.config = {
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <link rel="stylesheet" href="/css/style.css">
-<script src="/js/particles.js"></script>
 </head>
 <body class="min-h-screen p-4 md:p-8 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-<div class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 shadow-sm">
-<div class="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between gap-4 flex-wrap">
-<div class="flex items-center gap-3">
-<svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
-<span class="text-sm font-semibold text-gray-700 dark:text-gray-300 hidden sm:inline">Particles</span>
-</div>
-<div class="flex items-center gap-3 flex-wrap">
-<label class="flex items-center gap-2 cursor-pointer">
-<input type="checkbox" id="particleToggle" checked class="w-4 h-4 text-blue-600 rounded">
-<span class="text-xs text-gray-600 dark:text-gray-400">Enable</span>
-</label>
-<div class="flex items-center gap-2">
-<label class="text-xs text-gray-600 dark:text-gray-400 hidden sm:inline">Count:</label>
-<input type="range" id="particleCount" min="20" max="150" value="80" class="w-20 sm:w-32 h-1 bg-gray-300 rounded-lg appearance-none cursor-pointer accent-blue-600">
-<span id="countValue" class="text-xs text-gray-600 dark:text-gray-400 w-8">80</span>
-</div>
-<div class="flex items-center gap-2">
-<label class="text-xs text-gray-600 dark:text-gray-400 hidden sm:inline">Speed:</label>
-<input type="range" id="particleSpeed" min="0.1" max="2" step="0.1" value="0.5" class="w-20 sm:w-32 h-1 bg-gray-300 rounded-lg appearance-none cursor-pointer accent-blue-600">
-<span id="speedValue" class="text-xs text-gray-600 dark:text-gray-400 w-8">0.5</span>
-</div>
-<div class="flex items-center gap-2">
-<label class="text-xs text-gray-600 dark:text-gray-400 hidden sm:inline">Size:</label>
-<input type="range" id="particleSize" min="1" max="5" value="2" class="w-20 sm:w-32 h-1 bg-gray-300 rounded-lg appearance-none cursor-pointer accent-blue-600">
-<span id="sizeValue" class="text-xs text-gray-600 dark:text-gray-400 w-8">2</span>
-</div>
-</div>
-</div>
-</div>
-<div class="max-w-7xl mx-auto relative z-10" style="margin-top:60px">
+<div class="max-w-7xl mx-auto">
 <div class="flex justify-between items-center mb-12 animate-in">
 <div>
 <h1 class="text-5xl md:text-6xl font-extrabold gradient-text mb-3 tracking-tight">Image Converter</h1>

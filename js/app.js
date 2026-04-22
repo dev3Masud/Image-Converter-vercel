@@ -2,26 +2,6 @@ const $ = id => document.getElementById(id);
 let files = [], originalDims = {};
 let uploadUrls = [], resultUrl = null;
 
-// Particle controls
-$('particleToggle').onchange = (e) => {
-  particleBg.updateConfig('enabled', e.target.checked);
-};
-
-$('particleCount').oninput = (e) => {
-  $('countValue').textContent = e.target.value;
-  particleBg.updateConfig('count', parseInt(e.target.value));
-};
-
-$('particleSpeed').oninput = (e) => {
-  $('speedValue').textContent = e.target.value;
-  particleBg.updateConfig('speed', parseFloat(e.target.value));
-};
-
-$('particleSize').oninput = (e) => {
-  $('sizeValue').textContent = e.target.value;
-  particleBg.updateConfig('size', parseInt(e.target.value));
-};
-
 (function() {
   const d = localStorage.getItem('darkMode') === 'true';
   if (d) {
