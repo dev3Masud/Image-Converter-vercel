@@ -36,19 +36,22 @@ $('dropZone').ondrop = e => {
 $('fileInput').onchange = e => handleFiles(e.target.files);
 
 function handleFiles(fileList) {
-  files = Array.from(fileList).filter(f => {
+  const newFiles = Array.from(fileList).filter(f => {
     if (!f.type.startsWith('image/')) {
       showError(`${f.name} is not an image`);
       return false;
     }
     return true;
   });
+  
+  files = [...files, ...newFiles];
+  
   if (files.length) {
     $('preview').classList.remove('hidden');
     $('fileCount').textContent = `${files.length} file${files.length > 1 ? 's' : ''}`;
     $('fileList').innerHTML = files.map((f, i) => {
       const url = URL.createObjectURL(f);
-      uploadUrls.push(url);
+      if (!uploadUrls.includes(url)) uploadUrls.push(url);
       const img = new Image();
       img.onload = () => {
         originalDims[i] = { w: img.width, h: img.height };
