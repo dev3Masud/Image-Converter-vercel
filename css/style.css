@@ -4,6 +4,20 @@
   font-family: 'Inter', sans-serif;
 }
 
+/* Hide scrollbars globally */
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  overflow-x: hidden;
+}
+
 body {
   transition: background 0.5s ease, color 0.3s;
   min-height: 100vh;
