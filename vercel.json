@@ -24,8 +24,8 @@
       "dest": "api/convert.py"
     },
     {
-      "src": "/favicon.svg",
-      "dest": "/favicon.svg"
+      "src": "/favicon.png",
+      "dest": "/favicon.png"
     },
     {
       "src": "/css/(.*)",
