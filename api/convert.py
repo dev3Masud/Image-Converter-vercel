@@ -42,8 +42,9 @@ def handler():
             converted = convert_image(file.read(), output_format, quality, width, height)
             ext = output_format.lower() if output_format != 'JPEG' else 'jpg'
             filename = f"{file.filename.rsplit('.', 1)[0]}_converted.{ext}"
+            mimetype = 'image/jpeg' if output_format == 'JPEG' else f'image/{ext}'
             
-            return send_file(converted, mimetype=f'image/{ext}', as_attachment=True, download_name=filename)
+            return send_file(converted, mimetype=mimetype, as_attachment=True, download_name=filename)
         
         zip_buffer = io.BytesIO()
         with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
