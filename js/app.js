@@ -397,7 +397,7 @@ function renderCards() {
         </div>
         
         <!-- Close Button (Need pointer-events-auto to capture clicks since parent top bar is pointer-events-none) -->
-        <button onclick="event.stopPropagation(); removeFile('${f.id}')" class="absolute top-1.5 right-1.5 w-5 h-5 flex items-center justify-center bg-black/50 hover:bg-rose-500 text-white rounded-full transition hover:scale-105 active:scale-95 pointer-events-auto">
+        <button onclick="event.stopPropagation(); removeFile('${f.id}')" class="absolute top-1.5 right-1.5 z-10 w-5 h-5 flex items-center justify-center bg-black/50 hover:bg-rose-500 text-white rounded-full transition hover:scale-105 active:scale-95 pointer-events-auto">
           <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
           </svg>
