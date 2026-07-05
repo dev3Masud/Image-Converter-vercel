@@ -10,7 +10,7 @@ pillow_heif.register_heif_opener()
 
 app = Flask(__name__)
 
-ALLOWED_FORMATS = {'PNG', 'JPEG', 'JPG', 'WEBP', 'GIF', 'BMP', 'ICO', 'TIFF', 'AVIF'}
+ALLOWED_FORMATS = {'PNG', 'JPEG', 'JPG', 'WEBP', 'BMP', 'ICO', 'TIFF', 'AVIF'}
 
 def convert_image(file_data, output_format, quality, width, height):
     img = Image.open(io.BytesIO(file_data))
