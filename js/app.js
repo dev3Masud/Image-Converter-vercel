@@ -203,11 +203,17 @@ function handleFiles(fileList) {
     // Basic type validation (including HEIC types or extension)
     const ext = f.name.split('.').pop().toLowerCase();
     const validExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp', 'tiff', 'tif', 'heic', 'heif', 'avif', 'ico'];
-    if (f.type.startsWith('image/') || validExtensions.includes(ext)) {
-      return true;
+    if (!f.type.startsWith('image/') && !validExtensions.includes(ext)) {
+      showError(`Unsupported file type: ${f.name}`);
+      return false;
     }
-    showError(`Unsupported file type: ${f.name}`);
-    return false;
+    
+    // Vercel Serverless payload limit check (4.5 MB request body limit)
+    if (f.size > 4.4 * 1024 * 1024) {
+      showError(`File "${f.name}" is too large (${(f.size / (1024 * 1024)).toFixed(2)} MB). Vercel limits serverless uploads to 4.5 MB.`);
+      return false;
+    }
+    return true;
   });
 
   // Limit to 20 files
