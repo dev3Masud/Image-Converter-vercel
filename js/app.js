@@ -293,20 +293,24 @@ function renderCards() {
     
     if (activeTab === 'converter') {
       if (f.status === 'ready') {
+        const origExt = f.file.name.split('.').pop().toUpperCase();
         cardOverlay = `
           <div class="absolute inset-0 flex flex-col items-center justify-center bg-black/40 text-white select-none">
-            <span class="font-bold text-sm tracking-wider uppercase">${selectedFormat}</span>
+            <span class="font-bold text-sm tracking-wider uppercase">${origExt}</span>
           </div>
         `;
       } else if (f.status === 'processing') {
         cardOverlay = `
           <div class="absolute inset-0 flex flex-col items-center justify-center bg-black/60 text-white select-none">
-            <!-- Spinner -->
-            <svg class="w-7 h-7 text-white animate-spin mb-1.5" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            <!-- Spinner / Gear -->
+            <svg class="w-8 h-8 text-blue-400 animate-spin-slow mb-1.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.43l-1.003.828c-.293.241-.438.613-.43.992a7.723 7.723 0 010 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.43l1.004-.827c.292-.241.437-.613.43-.991a6.932 6.932 0 010-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.645-.869L9.594 3.94z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
-            <span class="text-[10px] font-bold tracking-wider uppercase">Processing...</span>
+            <span class="text-[10px] font-bold tracking-wider uppercase text-blue-200">PROCESSING...</span>
+            <div class="absolute bottom-0 inset-x-0 h-2 bg-blue-900/30 overflow-hidden">
+              <div class="h-full w-full bg-blue-500 progress-bar-striped animate-stripes"></div>
+            </div>
           </div>
         `;
       } else if (f.status === 'converted') {
@@ -328,19 +332,23 @@ function renderCards() {
       }
     } else if (activeTab === 'compressor') {
       if (f.status === 'ready') {
+        const origExt = f.file.name.split('.').pop().toUpperCase();
         cardOverlay = `
           <div class="absolute inset-0 flex flex-col items-center justify-center bg-black/40 text-white select-none">
-            <span class="font-bold text-[10px] tracking-wider uppercase">Ready</span>
+            <span class="font-bold text-sm tracking-wider uppercase">${origExt}</span>
           </div>
         `;
       } else if (f.status === 'processing') {
         cardOverlay = `
           <div class="absolute inset-0 flex flex-col items-center justify-center bg-black/60 text-white select-none">
-            <svg class="w-7 h-7 text-white animate-spin mb-1.5" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            <svg class="w-8 h-8 text-orange-400 animate-spin-slow mb-1.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.43l-1.003.828c-.293.241-.438.613-.43.992a7.723 7.723 0 010 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.43l1.004-.827c.292-.241.437-.613.43-.991a6.932 6.932 0 010-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.645-.869L9.594 3.94z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
-            <span class="text-[10px] font-bold tracking-wider uppercase">Compressing...</span>
+            <span class="text-[10px] font-bold tracking-wider uppercase text-orange-200">Compressing...</span>
+            <div class="absolute bottom-0 inset-x-0 h-2 bg-orange-900/30 overflow-hidden">
+              <div class="h-full w-full bg-orange-500 progress-bar-striped animate-stripes"></div>
+            </div>
           </div>
         `;
       } else if (f.status === 'converted') {
@@ -447,10 +455,16 @@ $('convertBtn').onclick = async () => {
   // Rotate the icon
   $('convertBtnIcon').classList.add('animate-spin');
 
-  // We process files in parallel using map & Promise.all
-  const promises = pendingFiles.map(async (item) => {
+  // Convert files one-by-one sequentially
+  for (const item of pendingFiles) {
     item.status = 'processing';
     renderCards();
+    
+    // Auto-scroll to center the currently processing card in the slider
+    const cardEl = $(`card-${item.id}`);
+    if (cardEl) {
+      cardEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
     
     try {
       const fd = new FormData();
@@ -463,7 +477,6 @@ $('convertBtn').onclick = async () => {
       } else if (activeTab === 'compressor') {
         let fmt = $('compressFormat').value;
         if (fmt === 'ORIGINAL') {
-          // Send original extension
           const originalExt = item.file.name.split('.').pop().toUpperCase();
           fmt = ['JPG', 'JPEG', 'PNG', 'WEBP', 'AVIF'].includes(originalExt) ? originalExt : 'WEBP';
         }
@@ -501,13 +514,12 @@ $('convertBtn').onclick = async () => {
       item.status = 'error';
       item.error = e.message;
     }
-  });
+    
+    renderCards();
+    updateBadge();
+  }
 
-  await Promise.all(promises);
-  
   $('convertBtnIcon').classList.remove('animate-spin');
-  renderCards();
-  updateBadge();
 };
 
 // Download ZIP action
