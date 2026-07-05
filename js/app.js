@@ -153,8 +153,11 @@ document.querySelectorAll('.format-pill').forEach(pill => {
 });
 
 // Compressor Inputs logic
-$('advancedToggle').onchange = () => {
-  $('advancedSection').classList.toggle('hidden', !$('advancedToggle').checked);
+let isAdvancedOpen = false;
+$('advancedToggleBtn').onclick = () => {
+  isAdvancedOpen = !isAdvancedOpen;
+  $('advancedSection').classList.toggle('hidden', !isAdvancedOpen);
+  $('advancedChevron').classList.toggle('rotate-180', isAdvancedOpen);
 };
 
 $('compressQuality').oninput = () => {
