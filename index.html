@@ -43,14 +43,8 @@ tailwind.config = {
         <span class="text-lg font-extrabold tracking-tight text-slate-800 dark:text-white transition-colors group-hover:text-orange-500">Image<span class="text-orange-500 dark:text-orange-400 group-hover:text-slate-800 dark:group-hover:text-white">Converter</span></span>
       </a>
       
-      <!-- Nav Menu & Dark Mode -->
+      <!-- Dark Mode Toggle -->
       <div class="flex items-center gap-6">
-        <nav class="flex items-center gap-5 text-sm font-medium">
-          <a href="#" id="navHome" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 transition">Home</a>
-          <a href="#" class="text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition">How-to</a>
-          <a href="#" class="text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition">Blog</a>
-        </nav>
-        
         <button id="darkToggle" class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 transition">
           <svg id="sunIcon" class="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
           <svg id="moonIcon" class="w-4 h-4 text-indigo-400 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
@@ -271,6 +265,21 @@ tailwind.config = {
     </div>
 
   </main>
+
+  <!-- Footer -->
+  <footer class="bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 py-6 mt-12 transition-colors duration-300">
+    <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium text-slate-500 dark:text-slate-400 animate-in">
+      <div class="flex items-center gap-2 select-none">
+        <span class="font-extrabold text-slate-700 dark:text-slate-300">Image<span class="text-orange-500">Converter</span></span>
+        <span>&copy; 2026. All rights reserved.</span>
+      </div>
+      <div class="flex gap-4">
+        <a href="#" class="hover:text-slate-800 dark:hover:text-slate-200 transition">Privacy Policy</a>
+        <a href="#" class="hover:text-slate-800 dark:hover:text-slate-200 transition">Terms of Service</a>
+        <a href="#" class="hover:text-slate-800 dark:hover:text-slate-200 transition">Contact</a>
+      </div>
+    </div>
+  </footer>
 
   <script src="/js/app.js"></script>
 </body>
