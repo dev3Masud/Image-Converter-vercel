@@ -525,7 +525,7 @@ $('convertBtn').onclick = async () => {
           width: resizeWidth,
           height: resizeHeight
         });
-        const outExt = targetFormat.toLowerCase() === 'jpeg' ? 'jpg' : targetFormat.toLowerCase();
+        const outExt = targetFormat.toLowerCase();
         finalName = `${getFilenameBase(item.file.name)}_converted.${outExt}`;
       } else {
         // 2. Otherwise, we must use the backend.

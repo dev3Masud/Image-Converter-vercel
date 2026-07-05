@@ -64,7 +64,7 @@ def handler():
         if len(files) == 1:
             file = files[0]
             converted = convert_image(file.read(), output_format, quality, width, height)
-            ext = output_format.lower() if output_format != 'JPEG' else 'jpg'
+            ext = output_format.lower()
             filename = f"{file.filename.rsplit('.', 1)[0]}_converted.{ext}"
             mimetype = 'image/jpeg' if output_format in ('JPEG', 'JPG') else f'image/{ext}'
             return send_file(converted, mimetype=mimetype, as_attachment=True, download_name=filename)
