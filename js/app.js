@@ -208,9 +208,16 @@ function handleFiles(fileList) {
       return false;
     }
     
-    // Vercel Serverless payload limit check (4.5 MB request body limit)
-    if (f.size > 4.4 * 1024 * 1024) {
-      showError(`File "${f.name}" is too large (${(f.size / (1024 * 1024)).toFixed(2)} MB). Vercel limits serverless uploads to 4.5 MB.`);
+    // Support files up to 20MB
+    if (f.size > 20 * 1024 * 1024) {
+      showError(`File "${f.name}" is too large (${(f.size / (1024 * 1024)).toFixed(2)} MB). Maximum supported file size is 20 MB.`);
+      return false;
+    }
+    
+    // HEIC/TIFF files > 4.4MB cannot be decoded client-side, so they are limited to 4.5MB Vercel limit
+    const isUnsupportedClientInput = ['heic', 'heif', 'tiff', 'tif'].includes(ext);
+    if (isUnsupportedClientInput && f.size > 4.4 * 1024 * 1024) {
+      showError(`File "${f.name}" is too large (${(f.size / (1024 * 1024)).toFixed(2)} MB). HEIC/TIFF uploads are limited to 4.5 MB due to Vercel serverless constraints.`);
       return false;
     }
     return true;
@@ -481,46 +488,89 @@ $('convertBtn').onclick = async () => {
     }
     
     try {
-      const fd = new FormData();
-      fd.append('files', item.file);
+      const ext = item.file.name.split('.').pop().toLowerCase();
+      const isHeic = ['heic', 'heif'].includes(ext);
       
-      let endpoint = '/api/convert';
-      if (activeTab === 'converter') {
-        fd.append('format', selectedFormat);
-        fd.append('quality', '85');
-      } else if (activeTab === 'compressor') {
+      // Determine format, quality, and resizing parameters
+      let targetFormat = selectedFormat;
+      let quality = 85;
+      let resizeEnabled = false;
+      let resizeWidth = 0;
+      let resizeHeight = 0;
+
+      if (activeTab === 'compressor') {
         let fmt = $('compressFormat').value;
         if (fmt === 'ORIGINAL') {
           const originalExt = item.file.name.split('.').pop().toUpperCase();
           fmt = ['JPG', 'JPEG', 'PNG', 'WEBP', 'AVIF'].includes(originalExt) ? originalExt : 'WEBP';
         }
-        fd.append('format', fmt);
-        fd.append('quality', $('compressQuality').value);
-        
+        targetFormat = fmt;
+        quality = parseInt($('compressQuality').value) || 80;
         if ($('resizeToggle').checked) {
-          fd.append('width', $('resizeWidth').value || 0);
-          fd.append('height', $('resizeHeight').value || 0);
+          resizeEnabled = true;
+          resizeWidth = parseInt($('resizeWidth').value) || 0;
+          resizeHeight = parseInt($('resizeHeight').value) || 0;
         }
       }
 
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        body: fd
-      });
+      const clientMime = getMimeType(targetFormat);
+      
+      let blob;
+      let finalName = '';
+      
+      // 1. If it's a browser-supported format (not HEIC) and output is browser-supported (JPG/PNG/WEBP), do 100% client-side
+      if (!isHeic && clientMime) {
+        blob = await processImageClientSide(item.file, targetFormat, quality, {
+          enabled: resizeEnabled,
+          width: resizeWidth,
+          height: resizeHeight
+        });
+        const outExt = targetFormat.toLowerCase() === 'jpeg' ? 'jpg' : targetFormat.toLowerCase();
+        finalName = `${getFilenameBase(item.file.name)}_converted.${outExt}`;
+      } else {
+        // 2. Otherwise, we must use the backend.
+        // If the file is > 4.4MB and not HEIC, we pre-compress it to a JPEG to fit Vercel's payload limit!
+        let uploadFile = item.file;
+        if (!isHeic && item.file.size > 4.4 * 1024 * 1024) {
+          // Pre-compress to high-quality JPEG blob (0.92) to fit payload size
+          const tempJpegBlob = await processImageClientSide(item.file, 'JPEG', 92, {
+            enabled: resizeEnabled,
+            width: resizeWidth,
+            height: resizeHeight
+          });
+          uploadFile = new File([tempJpegBlob], `${getFilenameBase(item.file.name)}.jpg`, { type: 'image/jpeg' });
+          // Disable further resizing on backend since we already applied it in client canvas
+          resizeEnabled = false; 
+        }
 
-      if (!res.ok) {
-        const errorJson = await res.json().catch(() => ({}));
-        throw new Error(errorJson.error || 'Server error during conversion');
+        const fd = new FormData();
+        fd.append('files', uploadFile);
+        fd.append('format', targetFormat);
+        fd.append('quality', quality.toString());
+        if (resizeEnabled) {
+          fd.append('width', resizeWidth.toString());
+          fd.append('height', resizeHeight.toString());
+        }
+
+        const res = await fetch('/api/convert', {
+          method: 'POST',
+          body: fd
+        });
+
+        if (!res.ok) {
+          const errorJson = await res.json().catch(() => ({}));
+          throw new Error(errorJson.error || 'Server error during conversion');
+        }
+
+        blob = await res.blob();
+        finalName = res.headers.get('content-disposition')
+          ? res.headers.get('content-disposition').split('filename=')[1]?.replace(/["']/g, '')
+          : `${getFilenameBase(item.file.name)}_converted.${targetFormat.toLowerCase()}`;
       }
-
-      const blob = await res.blob();
-      const filename = res.headers.get('content-disposition')
-        ? res.headers.get('content-disposition').split('filename=')[1]?.replace(/["']/g, '')
-        : `${item.file.name.split('.')[0]}_converted.${selectedFormat.toLowerCase()}`;
       
       item.convertedBlob = blob;
       item.convertedUrl = URL.createObjectURL(blob);
-      item.convertedName = filename || `${item.file.name.split('.')[0]}_converted.${selectedFormat.toLowerCase()}`;
+      item.convertedName = finalName;
       item.status = 'converted';
       
     } catch (e) {
@@ -693,4 +743,79 @@ function showError(msg) {
   $('error').textContent = msg;
   $('error').classList.remove('hidden');
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Client-Side Canvas Image Processing Utilities
+function getMimeType(format) {
+  const f = format.toUpperCase();
+  if (f === 'JPG' || f === 'JPEG') return 'image/jpeg';
+  if (f === 'WEBP') return 'image/webp';
+  if (f === 'PNG') return 'image/png';
+  return null;
+}
+
+function getFilenameBase(filename) {
+  const idx = filename.lastIndexOf('.');
+  return idx === -1 ? filename : filename.substring(0, idx);
+}
+
+function processImageClientSide(file, format, quality, resizeOpts) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.src = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(img.src);
+      
+      // Calculate target dimensions
+      let width = img.naturalWidth;
+      let height = img.naturalHeight;
+      if (resizeOpts && resizeOpts.enabled) {
+        const targetW = parseInt(resizeOpts.width) || 0;
+        const targetH = parseInt(resizeOpts.height) || 0;
+        if (targetW && targetH) {
+          width = targetW;
+          height = targetH;
+        } else if (targetW) {
+          const ratio = targetW / width;
+          width = targetW;
+          height = Math.round(height * ratio);
+        } else if (targetH) {
+          const ratio = targetH / height;
+          height = targetH;
+          width = Math.round(width * ratio);
+        }
+      }
+      
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      
+      // Draw background if transparent and output is JPG/JPEG
+      if (format === 'JPG' || format === 'JPEG') {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, width, height);
+      }
+      
+      ctx.drawImage(img, 0, 0, width, height);
+      
+      // Determine mimetype
+      let mimeType = 'image/png';
+      if (format === 'JPG' || format === 'JPEG') mimeType = 'image/jpeg';
+      else if (format === 'WEBP') mimeType = 'image/webp';
+      
+      const q = quality ? (quality / 100) : 0.85;
+      
+      canvas.toBlob(blob => {
+        if (blob) {
+          resolve(blob);
+        } else {
+          reject(new Error("Canvas conversion failed"));
+        }
+      }, mimeType, q);
+    };
+    img.onerror = () => {
+      reject(new Error("Failed to load image on client side"));
+    };
+  });
 }
