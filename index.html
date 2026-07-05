@@ -213,11 +213,15 @@ tailwind.config = {
         <!-- Bottom Action Bar -->
         <div class="flex flex-col sm:flex-row justify-between items-center gap-4 border-t border-slate-100 dark:border-slate-800/80 pt-5">
           <!-- Converter Mode: Format Selector Pills -->
-          <div id="formatSelectorGroup" class="flex items-center gap-1 bg-slate-100 dark:bg-slate-900 p-1 rounded-xl w-full sm:w-auto">
+          <div id="formatSelectorGroup" class="flex flex-wrap items-center gap-1 bg-slate-100 dark:bg-slate-900 p-1 rounded-xl w-full sm:w-auto">
             <button data-format="JPG" class="format-pill flex-1 sm:flex-none px-4 py-2 text-xs font-bold rounded-lg transition-all text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 uppercase tracking-wider">JPG</button>
             <button data-format="PNG" class="format-pill flex-1 sm:flex-none px-4 py-2 text-xs font-bold rounded-lg transition-all text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 uppercase tracking-wider">PNG</button>
-            <button data-format="WEBP" class="format-pill flex-1 sm:flex-none px-4 py-2 text-xs font-bold rounded-lg transition-all bg-white dark:bg-slate-800 shadow-sm border border-slate-200/50 dark:border-slate-800 text-slate-800 dark:text-white uppercase tracking-wider">WEBP</button>
+            <button data-format="WEBP" class="format-pill flex-1 sm:flex-none px-4 py-2 text-xs font-bold rounded-lg transition-all bg-orange-500 text-white shadow-sm uppercase tracking-wider">WEBP</button>
             <button data-format="AVIF" class="format-pill flex-1 sm:flex-none px-4 py-2 text-xs font-bold rounded-lg transition-all text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 uppercase tracking-wider">AVIF</button>
+            <button data-format="GIF" class="format-pill flex-1 sm:flex-none px-4 py-2 text-xs font-bold rounded-lg transition-all text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 uppercase tracking-wider">GIF</button>
+            <button data-format="BMP" class="format-pill flex-1 sm:flex-none px-4 py-2 text-xs font-bold rounded-lg transition-all text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 uppercase tracking-wider">BMP</button>
+            <button data-format="TIFF" class="format-pill flex-1 sm:flex-none px-4 py-2 text-xs font-bold rounded-lg transition-all text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 uppercase tracking-wider">TIFF</button>
+            <button data-format="ICO" class="format-pill flex-1 sm:flex-none px-4 py-2 text-xs font-bold rounded-lg transition-all text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 uppercase tracking-wider">ICO</button>
           </div>
 
           <!-- Empty spacer or EXIF guidance text -->

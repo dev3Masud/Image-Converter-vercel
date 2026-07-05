@@ -126,10 +126,10 @@ function switchTab(tab) {
 document.querySelectorAll('.format-pill').forEach(pill => {
   pill.onclick = () => {
     document.querySelectorAll('.format-pill').forEach(p => {
-      p.classList.remove('bg-white', 'dark:bg-slate-800', 'shadow-sm', 'border', 'border-slate-200/50', 'dark:border-slate-800', 'text-slate-800', 'dark:text-white');
+      p.classList.remove('bg-orange-500', 'text-white', 'shadow-sm');
       p.classList.add('text-slate-500', 'hover:text-slate-700', 'dark:text-slate-400', 'dark:hover:text-slate-200');
     });
-    pill.classList.add('bg-white', 'dark:bg-slate-800', 'shadow-sm', 'border', 'border-slate-200/50', 'dark:border-slate-800', 'text-slate-800', 'dark:text-white');
+    pill.classList.add('bg-orange-500', 'text-white', 'shadow-sm');
     pill.classList.remove('text-slate-500', 'hover:text-slate-700', 'dark:text-slate-400', 'dark:hover:text-slate-200');
     
     selectedFormat = pill.getAttribute('data-format');
