@@ -14,13 +14,6 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Custom dark mode container backgrounds */
-.dark .bg-slate-850 {
-  background-color: #1e293b;
-}
-.bg-slate-850 {
-  background-color: #ffffff;
-}
 
 /* Classic checkerboard transparency pattern */
 .bg-checker {

@@ -79,12 +79,12 @@ function switchTab(tab) {
   
   // Update Tab Styling
   document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.classList.remove('active', 'bg-white', 'dark:bg-slate-850', 'border-t', 'border-x', 'border-slate-200', 'dark:border-slate-800', 'text-orange-500', 'dark:text-orange-400');
+    btn.classList.remove('active', 'bg-white', 'dark:bg-slate-800', 'border-t', 'border-x', 'border-slate-200', 'dark:border-slate-800', 'text-orange-500', 'dark:text-orange-400');
     btn.classList.add('text-slate-500', 'hover:text-slate-700', 'dark:text-slate-400', 'dark:hover:text-slate-200');
   });
 
   const activeBtn = tab === 'converter' ? $('tabConverter') : (tab === 'compressor' ? $('tabCompressor') : $('tabExif'));
-  activeBtn.classList.add('active', 'bg-white', 'dark:bg-slate-850', 'border-t', 'border-x', 'border-slate-200', 'dark:border-slate-800', 'text-orange-500', 'dark:text-orange-400');
+  activeBtn.classList.add('active', 'bg-white', 'dark:bg-slate-800', 'border-t', 'border-x', 'border-slate-200', 'dark:border-slate-800', 'text-orange-500', 'dark:text-orange-400');
   activeBtn.classList.remove('text-slate-500', 'hover:text-slate-700', 'dark:text-slate-400', 'dark:hover:text-slate-200');
 
   // Update Visible Controls
@@ -126,10 +126,10 @@ function switchTab(tab) {
 document.querySelectorAll('.format-pill').forEach(pill => {
   pill.onclick = () => {
     document.querySelectorAll('.format-pill').forEach(p => {
-      p.classList.remove('bg-white', 'dark:bg-slate-850', 'shadow-sm', 'border', 'border-slate-200/50', 'dark:border-slate-800', 'text-slate-800', 'dark:text-white');
+      p.classList.remove('bg-white', 'dark:bg-slate-800', 'shadow-sm', 'border', 'border-slate-200/50', 'dark:border-slate-800', 'text-slate-800', 'dark:text-white');
       p.classList.add('text-slate-500', 'hover:text-slate-700', 'dark:text-slate-400', 'dark:hover:text-slate-200');
     });
-    pill.classList.add('bg-white', 'dark:bg-slate-850', 'shadow-sm', 'border', 'border-slate-200/50', 'dark:border-slate-800', 'text-slate-800', 'dark:text-white');
+    pill.classList.add('bg-white', 'dark:bg-slate-800', 'shadow-sm', 'border', 'border-slate-200/50', 'dark:border-slate-800', 'text-slate-800', 'dark:text-white');
     pill.classList.remove('text-slate-500', 'hover:text-slate-700', 'dark:text-slate-400', 'dark:hover:text-slate-200');
     
     selectedFormat = pill.getAttribute('data-format');
@@ -638,7 +638,7 @@ function displayExifTable(data) {
     
     for (const [key, val] of Object.entries(data.EXIF)) {
       rows.push(`
-        <tr class="hover:bg-slate-100/30 dark:hover:bg-slate-800/20 border-b border-slate-100 dark:border-slate-850">
+        <tr class="hover:bg-slate-100/30 dark:hover:bg-slate-800/20 border-b border-slate-100 dark:border-slate-800">
           <td class="py-2.5 font-medium text-slate-400 dark:text-slate-500">${key}</td>
           <td class="py-2.5 truncate max-w-[200px]" title="${val}">${val}</td>
         </tr>
