@@ -1,3 +1,4 @@
+// Trigger Vercel deployment rebuild
 const $ = id => document.getElementById(id);
 
 let files = []; // Array of { id, file, status, convertedUrl, convertedBlob, convertedName, originalUrl, exifData, error }
