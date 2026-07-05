@@ -1,185 +1,93 @@
-# Image Converter Web App
+# ⚡ ImageConverter
 
-A modern, fast, browser-based image format converter with resize, quality control, bulk upload, and dark mode. Built with Python (Flask + Pillow) backend and vanilla JavaScript frontend.
+A state-of-the-art, lightning-fast online image conversion and compression platform. Built for serverless deployment on Vercel, featuring a premium dashboard UI, browser-side ZIP compilation, and multi-format processing capabilities.
 
-## Features
+## 🌟 Key Features
 
-- **Multi-format support**: PNG, JPG, WEBP, GIF, BMP, ICO, TIFF
-- **Bulk conversion**: Upload and convert multiple images at once
-- **Quality control**: Adjustable quality slider for JPG and WEBP
-- **Image resize**: Optional width/height with aspect ratio lock
-- **Dark mode**: Toggle with localStorage persistence
-- **Drag & drop**: Intuitive file upload interface
-- **Responsive**: Works on mobile, tablet, and desktop
-- **Fast**: Serverless Python runtime on Vercel
+*   **Premium Interactive UI**: Highly refined responsive layouts, smooth dark/light mode state transitions, and card-based image carousels.
+*   **Three Feature Tabs**:
+    *   📁 **Converter**: Convert between multiple formats (including HEIC, AVIF, PNG, JPEG, WEBP, BMP, TIFF, ICO).
+    *   🎛️ **Compressor**: Sliders for compression intensity, format control, and an iOS-style toggle switch for custom resize width/height limits.
+    *   🔍 **EXIF Inspector**: Inspect camera properties, focal lengths, dates, and other metadata directly from selected images.
+*   **Sequential Conversion**: Visual one-by-one conversion flow showing progress spinner overlays, auto-scrolling viewport focus, and animating striped loading bars.
+*   **Smart In-Browser Packaging**: Combines bulk converted outputs client-side into a single ZIP using `JSZip`, bypassing Vercel's Serverless 4.5MB payload size limit.
+*   **Zero-Storage Privacy**: All conversions are handled temporarily in memory on Vercel serverless functions—files are never saved or stored.
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-- **Backend**: Python 3.9+, Flask, Pillow
-- **Frontend**: HTML5, Tailwind CSS (CDN), Vanilla JS
-- **Deployment**: Vercel (@vercel/python)
-- **Local Dev**: Flask dev server
+*   **Backend**: Python (Flask, Pillow, pillow-heif, pillow-avif-plugin)
+*   **Frontend**: HTML5, Vanilla JavaScript, Tailwind CSS, JSZip
+*   **Deployment**: Vercel Serverless (@vercel/python)
 
-## Project Structure
+## 📂 Project Structure
 
 ```
-image-converter/
 ├── api/
-│   └── convert.py          # Vercel serverless function
-├── index.html              # Single page app UI 
-├── app.py                  # Local Flask dev server
-├── requirements.txt        # Python dependencies
-├── vercel.json             # Vercel config
-├── .vercelignore           # Deployment exclusions
-└── README.md               # This file
+│   └── convert.py          # Serverless Python conversion endpoint
+├── css/
+│   └── style.css           # Custom scroll animation & progress styling
+├── js/
+│   └── app.js              # State engine, UI controller & client-side compression
+├── index.html              # Core application interface
+├── app.py                  # Local Python development server
+├── requirements.txt        # Backend dependencies (Pillow, AVIF & HEIC support)
+├── vercel.json             # Vercel deployment routes and runtime configuration
+└── README.md               # Documentation
 ```
 
-## Local Development
+## 🚀 Local Development
 
 ### Prerequisites
 
-- Python 3.9 or higher
+- Python 3.9+ (Python 3.14 recommended)
 - pip
 
 ### Setup
 
-1. Clone or download this project:
-```bash
-cd image-converter
-```
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/dev3Masud/Image-Converter-vercel.git
+   cd Image-Converter-vercel
+   ```
 
-2. Create a virtual environment (recommended):
-```bash
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+2. **Create and activate a virtual environment**:
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # Windows: .venv\Scripts\activate
+   ```
 
-3. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+3. **Install dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-4. Run the dev server:
-```bash
-python app.py
-```
+4. **Launch development server**:
+   ```bash
+   python app.py
+   ```
 
-5. Open your browser:
-```
-http://localhost:8080
-```
+5. **Open local application**:
+   Open [http://localhost:8080](http://localhost:8080) in your browser.
 
-## Deploy to Vercel
+## ☁️ Deploying to Vercel
 
-### Method 1: Deploy from GitHub (Recommended)
+The application is pre-configured for Vercel Serverless Functions.
 
-1. Clone this repository:
-```bash
-git clone https://github.com/dev3Masud/Image-Converter-vercel.git
-cd Image-Converter-vercel
-```
+1. **Vercel GitHub Integration**:
+   - Go to [Vercel.com](https://vercel.com).
+   - Import your repository and click **Deploy**.
+   - Vercel will automatically read `vercel.json` and build the Python backend in your serverless functions directory.
 
-2. Push to your own GitHub repository:
-```bash
-git remote set-url origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
-git push -u origin main
-```
+2. **Deploying via Vercel CLI**:
+   ```bash
+   npm i -g vercel
+   vercel --prod
+   ```
 
-3. Go to [vercel.com](https://vercel.com) and sign in
+## 📄 License
 
-4. Click **"Add New Project"**
+This project is licensed under the MIT License.
 
-5. Import your GitHub repository:
-   - Select your repository from the list
-   - Click **"Import"**
+## 👨‍💻 Author
 
-6. Configure project:
-   - Framework Preset: **Other**
-   - Root Directory: `./` (leave as default)
-   - Build Command: (leave empty)
-   - Output Directory: (leave empty)
-   - Click **"Deploy"**
-
-7. Wait for deployment to complete (1-2 minutes)
-
-8. Your app is live at: `https://your-project.vercel.app`
-
-**Auto-deploy**: Any push to `main` branch will automatically redeploy.
-
-### Method 2: Deploy with Vercel CLI
-
-1. Install Vercel CLI:
-```bash
-npm i -g vercel
-```
-
-2. Navigate to project directory:
-```bash
-cd image-converter
-```
-
-3. Login to Vercel:
-```bash
-vercel login
-```
-
-4. Deploy:
-```bash
-vercel
-```
-
-Follow the prompts:
-- Set up and deploy? **Y**
-- Which scope? Select your account
-- Link to existing project? **N**
-- Project name? **image-converter** (or your choice)
-- Directory? **./** (current directory)
-- Override settings? **N**
-
-5. Production deployment:
-```bash
-vercel --prod
-```
-
-Your app will be live at: `https://your-project.vercel.app`
-
-## Usage
-
-1. **Upload**: Drag & drop images or click to browse (max 10MB per file)
-2. **Select format**: Choose output format from dropdown
-3. **Adjust quality**: Use slider for JPG/WEBP (1-100)
-4. **Resize (optional)**: Enable resize, enter dimensions, lock aspect ratio
-5. **Convert**: Click "Convert" button
-6. **Download**: Single file downloads directly, multiple files download as ZIP
-
-## Limitations
-
-- Max file size: 10MB per image
-- Max execution time: 10 seconds (Vercel limit)
-- Max response size: 4.5MB (Vercel limit)
-- Bulk conversions with large files may hit limits
-
-## Troubleshooting
-
-### Local dev server won't start
-- Check Python version: `python --version` (must be 3.9+)
-- Reinstall dependencies: `pip install -r requirements.txt`
-- Check port 8080 is not in use
-
-### Vercel deployment fails
-- Ensure `vercel.json` is present
-- Check `requirements.txt` has correct versions
-- Run `vercel logs` to see error details
-
-### Image conversion fails
-- Check file is valid image format
-- Ensure file is under 10MB
-- Try converting single file first
-
-## License
-
-MIT
-
-## Author
-
-Abdullah Al Masud
+Created and maintained by [@dev3Masud](https://github.com/dev3Masud).
