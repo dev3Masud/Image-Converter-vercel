@@ -80,12 +80,12 @@ function switchTab(tab) {
   
   // Update Tab Styling
   document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.classList.remove('active', 'bg-white', 'dark:bg-slate-800', 'border-t', 'border-x', 'border-slate-200', 'dark:border-slate-800', 'text-orange-500', 'dark:text-orange-400');
+    btn.classList.remove('active', 'text-orange-500', 'dark:text-orange-400');
     btn.classList.add('text-slate-500', 'hover:text-slate-700', 'dark:text-slate-400', 'dark:hover:text-slate-200');
   });
 
   const activeBtn = tab === 'converter' ? $('tabConverter') : (tab === 'compressor' ? $('tabCompressor') : $('tabExif'));
-  activeBtn.classList.add('active', 'bg-white', 'dark:bg-slate-800', 'border-t', 'border-x', 'border-slate-200', 'dark:border-slate-800', 'text-orange-500', 'dark:text-orange-400');
+  activeBtn.classList.add('active', 'text-orange-500', 'dark:text-orange-400');
   activeBtn.classList.remove('text-slate-500', 'hover:text-slate-700', 'dark:text-slate-400', 'dark:hover:text-slate-200');
 
   // Update Visible Controls
