@@ -169,42 +169,55 @@ tailwind.config = {
 
         <!-- Compressor Options Panel (Shown only in Compressor tab) -->
         <div id="compressorPanel" class="hidden mb-6 p-5 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-slate-100 dark:border-slate-800 space-y-4">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div class="flex-1">
-              <label class="flex justify-between text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
-                <span>Compression Quality</span>
-                <span id="compressValue" class="text-orange-500">80%</span>
-              </label>
-              <input type="range" id="compressQuality" min="5" max="100" value="80" class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-orange-500">
-            </div>
-            
-            <div class="w-full sm:w-48">
-              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Target Format</label>
-              <select id="compressFormat" class="w-full p-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-750 text-xs font-semibold rounded-lg focus:outline-none focus:border-orange-500">
-                <option value="ORIGINAL">Keep Original Format</option>
-                <option value="JPG">Convert to JPG</option>
-                <option value="PNG">Convert to PNG</option>
-                <option value="WEBP">Convert to WEBP</option>
-                <option value="AVIF">Convert to AVIF</option>
-              </select>
-            </div>
-          </div>
+          
+          <!-- Advanced Settings Toggle -->
+          <label class="flex items-center gap-2 cursor-pointer select-none">
+            <input type="checkbox" id="advancedToggle" class="w-4 h-4 text-orange-500 rounded border-slate-300 dark:border-slate-700 focus:ring-orange-500 accent-orange-500">
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Advanced Settings</span>
+          </label>
 
-          <!-- Advanced Resize Options inside Compressor -->
-          <div class="border-t border-slate-200/50 dark:border-slate-800/50 pt-4 flex flex-col gap-3">
-            <label class="flex items-center gap-2 cursor-pointer select-none">
-              <input type="checkbox" id="resizeToggle" class="w-4 h-4 text-orange-500 rounded border-slate-300 dark:border-slate-700 focus:ring-orange-500 accent-orange-500">
-              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Enable Resizing</span>
-            </label>
-            
-            <div id="resizeDimensions" class="hidden grid grid-cols-2 gap-4 max-w-sm">
-              <div>
-                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Width (px)</label>
-                <input type="number" id="resizeWidth" placeholder="Auto" min="1" class="w-full p-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-750 text-xs font-semibold rounded-lg focus:outline-none focus:border-orange-500">
+          <!-- Collapsible Advanced Settings Section -->
+          <div id="advancedSection" class="hidden space-y-4 border-t border-slate-200/50 dark:border-slate-800/50 pt-4 animate-in">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="flex-1">
+                <label class="flex justify-between text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                  <span>Compression Quality</span>
+                  <span id="compressValue" class="text-orange-500">80%</span>
+                </label>
+                <input type="range" id="compressQuality" min="5" max="100" value="80" class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-orange-500">
               </div>
-              <div>
-                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Height (px)</label>
-                <input type="number" id="resizeHeight" placeholder="Auto" min="1" class="w-full p-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-750 text-xs font-semibold rounded-lg focus:outline-none focus:border-orange-500">
+              
+              <div class="w-full sm:w-48">
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Target Format</label>
+                <select id="compressFormat" class="w-full p-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-750 text-xs font-semibold rounded-lg focus:outline-none focus:border-orange-500">
+                  <option value="ORIGINAL">Keep Original Format</option>
+                  <option value="JPG">Convert to JPG</option>
+                  <option value="PNG">Convert to PNG</option>
+                  <option value="WEBP">Convert to WEBP</option>
+                  <option value="AVIF">Convert to AVIF</option>
+                  <option value="BMP">Convert to BMP</option>
+                  <option value="TIFF">Convert to TIFF</option>
+                  <option value="ICO">Convert to ICO</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Advanced Resize Options inside Compressor -->
+            <div class="border-t border-slate-200/50 dark:border-slate-800/50 pt-4 flex flex-col gap-3">
+              <label class="flex items-center gap-2 cursor-pointer select-none">
+                <input type="checkbox" id="resizeToggle" class="w-4 h-4 text-orange-500 rounded border-slate-300 dark:border-slate-700 focus:ring-orange-500 accent-orange-500">
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Enable Resizing</span>
+              </label>
+              
+              <div id="resizeDimensions" class="hidden grid grid-cols-2 gap-4 max-w-sm">
+                <div>
+                  <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Width (px)</label>
+                  <input type="number" id="resizeWidth" placeholder="Auto" min="1" class="w-full p-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-750 text-xs font-semibold rounded-lg focus:outline-none focus:border-orange-500">
+                </div>
+                <div>
+                  <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Height (px)</label>
+                  <input type="number" id="resizeHeight" placeholder="Auto" min="1" class="w-full p-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-750 text-xs font-semibold rounded-lg focus:outline-none focus:border-orange-500">
+                </div>
               </div>
             </div>
           </div>

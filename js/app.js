@@ -153,6 +153,10 @@ document.querySelectorAll('.format-pill').forEach(pill => {
 });
 
 // Compressor Inputs logic
+$('advancedToggle').onchange = () => {
+  $('advancedSection').classList.toggle('hidden', !$('advancedToggle').checked);
+};
+
 $('compressQuality').oninput = () => {
   $('compressValue').textContent = $('compressQuality').value + '%';
   resetCompletedCompressions();
